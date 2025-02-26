@@ -1,0 +1,17 @@
+{
+  "name": "TopLoggerStats",
+  "short_name": "TLS",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "description": "Track your full climbing journey. Get all the visualized stats of your logged TopLogger sends.",
+  "icons": [
+    {
+      "src": "/img/Logo.png",
+      "sizes": "352x352",
+      "type": "image/png"
+    }
+  ],
+  "scope": "/"
+}

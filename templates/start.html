@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block head %}
+    {{ super() }}
+    <meta name="description" content="Track your full climbing journey. Get all the visualized stats of your logged TopLogger sends.">
+    <meta id="preload" data-id="{{ preload_key }}">
+    <link rel="stylesheet" href="/static/css/minified/start.css" type="text/css">
+    <script type="text/javascript" src="/static/js/minified/start.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.43.0/apexcharts.min.js" integrity="sha512-vv0F8Er+ByFK3l86WDjP5Zc0h8uxNWPzF+l4wGK0/BlHWxDiFHbYr/91dn8G0OO8tTnN40L4s2Whom+X2NxPog==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+{% endblock %}
+{% block content %}
+<form id="start-page" enctype="multipart/form-data" class="row start-form">
+    <div class="column" style="flex-grow: 2;">
+        <div class="block" style="padding: 10px 30px;flex-grow: 6;">
+            <h2>Welcome on TopLoggerStats.</h2>
+            <p>On this website you can have an in-depth analysis of your logged ascends on
+                <a href="https://toplogger.nu" target="_blank" rel="noopener noreferrer">TopLogger</a>.
+                Whereas TopLogger has an amazing logging system, the analysis of your
+                climbing achievements is quite limited, therefore I've made this application. TopLogger is free if you're a
+                climber, if your gym is using TopLogger you can log your climbed routes
+                <a href="https://app.toplogger.nu" target="_blank" rel="noopener noreferrer">here</a>. I sincerely hope you
+                enjoy using this application.
+            </p>
+            <h3>How to use this application?</h3>
+            <p>Below, you can select the user whose stats you wish to view. <span id="direction-1">To the right</span>,
+                choose the type of routes, the grading system, and the gyms for which you want to see statistics. Submit
+                your choices using the button located <span id="direction-2">in the bottom-right corner</span>.
+            </p>
+        </div>
+        <div id="username-selection" class="block">
+            <h3 style="margin-left: 10px;">Whose stats do you want to see?</h3>
+            <div style="padding: 0 5px">
+                <div>
+                    {% if remembered_users %}
+                        <select id="remembered-users">
+                            <option style="display: none;" selected disabled>Select a remembered user</option>
+                            {% for user in remembered_users %}
+                                <option data-id="{{ user[0] }}" value="{{ user[1][1] }}">{{ user[1][0] }} - {{ user[1][2] }}</option>
+                            {% endfor %}
+                            <option data-id="none">Select another user</option>
+                        </select>
+                        <span class="divider">– Or select another user –</span>
+                    {% endif %}
+                </div>
+                <div id="username-dropdown">
+                    <select id="username-gym">
+                        <option style="display: none;" selected disabled>Select any gym with tops (last 60 days)</option>
+                        {% for gym in gyms %}
+                            <option name="{{ gym[0] }}" data-search-term="{{ gym[1].lower() }} {{ gym[6].lower() }}" data-boulder="{{ gym[4] > 0 }}" data-route="{{ gym[5] > 0 }}">{{ gym[1] }} ({{ gym[6] }})</option>
+                        {% endfor %}
+                    </select>
+                    <div class="nice-remember-me">
+                        <select id="username" style="width: 60%" disabled>
+                            <option selected>Select a gym first</option>
+                        </select>
+                        <div id="remember-me">
+                            <input class="remember-me remember-me-disabled" type="checkbox" disabled><label>Remember me</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input id="uid" type="text" name="uid" style="display: none;">
+            <input id="name" type="text" name="name" style="display: none;">
+            <input id="me" type="text" name="remember-me" style="display: none;">
+        </div>
+    </div>
+        <div class="column">
+            <div class="block">
+                <div class="user-options-block">
+                    <div class="left-options-block">
+                        <h5 style="margin-bottom: 5px;">Which type of stats do you want to see?</h5>
+                        <div id="climb-type">
+                            <div class="option">
+                                <input type="radio" name="climb-type" value="boulder" checked="checked"><label>Bouldering</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="climb-type" value="route"><label>Climbing</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-options-block">
+                        <h5 style="margin-bottom: 5px; margin-top: 0px;">In which grading system do you want to see the stats?</h5>
+                        <div id="grading-system-boulder">
+                            <div class="option">
+                                <input type="radio" name="grading-system" value="french" checked="checked"><label>French</label><br>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="grading-system" value="french_rounded"><label>French rounded</label><br>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="grading-system" value="v_grade"><label>V-grades</label><br>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="grading-system" value="british"><label>British</label>
+                            </div>
+                        </div>
+                        <div id="grading-system-route" style="display: none;">
+                            <div class="option">
+                                <input type="radio" name="grading-system" value="french"><label>French</label><br>
+                            </div>
+                            <div class="option">
+                            <input type="radio" name="grading-system" value="ewbank"><label>Ewbank</label><br>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="grading-system" value="uiaa"><label>UIAA</label><br>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="grading-system" value="yds"><label>YDS</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="block">
+                <div>
+                    <h3>Select the gyms you want to see your stats for</h3>
+                    <input type="text" class="gym_search" placeholder="Search your gym">
+                    <div class="gyms">
+                        {% for gym in gyms %}
+                            {% if gym[4] > 0 %}
+                                <div class="option" data-search-term="{{ gym[1].lower() }} {{ gym[6].lower() }}" data-boulder="{{ gym[4] > 0 }}" data-route="{{ gym[5] > 0 }}">
+                                    <input type="checkbox" name="{{ gym[0] }}" value="{{ gym[2] }}"><label> {{ gym[1] }} ({{ gym[6] }})</label><br>
+                                </div>
+                            {% else %}
+                                 <div class="option" style="display: none;" data-search-term="{{ gym[1].lower() }} {{ gym[6].lower() }}" data-boulder="{{ gym[4] > 0 }}" data-route="{{ gym[5] > 0 }}">
+                                    <input type="checkbox" name="{{ gym[0] }}" value="{{ gym[2] }}"><label> {{ gym[1] }} ({{ gym[6] }})</label><br>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <button id="da-button" style="margin-top: 25px; margin-bottom: 0px;" type="button">See your <b style="color: var(--toplogger-pink);">stats</b></button>
+            </div>
+        </div>
+</form>
+<div id="loading" class="loading" style="display: none;"></div>
+{% endblock %}

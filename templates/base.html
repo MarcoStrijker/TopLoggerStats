@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://code.jquery.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com/" crossorigin>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta property="og:title" content="TopLoggerStats"/>
+    <meta property="og:url" content="https://www.toploggerstats.nl"/>
+    <meta property="og:image" itemprop="image" content="https://toploggerstats.nl/img/Logo.png"/>
+    <meta property="og:type" content="website" />
+    <link rel="stylesheet" href="/static/css/minified/style.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/static/js/minified/main.js" defer></script>
+    <link rel="icon" type="icon" href="/static/img/favicon_light.svg" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="icon" href="/static/img/favicon_dark.svg" media="(prefers-color-scheme: dark)">
+    <link rel="dns-prefetch" href="https://cdn1.toplogger.nu/">
+    <title>{% block title %}{% endblock %} - TopLoggerStats</title>
+    {% endblock %}
+</head>
+<body>
+    <div id="navbar">
+        <a href="/" style="margin-left: 20px;display: flex; align-items: center; text-decoration: none;" aria-label="Go to homepage">
+            <svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px" viewBox="0 0 48 48" fill="none" license="https://www.svgrepo.com/page/licensing">
+                <rect x="4" y="8" width="40" height="32" rx="2" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></rect>
+                <path d="M32 25V32" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M24 16V32" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M16 20V32" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <h1 style="margin-left: 10px;"><u id="title">TopLoggerStats</u></h1>
+        </a>
+        <a id="burger">
+            <svg xmlns="http://www.w3.org/2000/svg" height="32px" version="1.1" viewBox="0 0 32 32" width="32px">
+                <path fill="#ffffff" d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/>
+            </svg>
+        </a>
+    </div>
+    <div id="navpane" style="display: none;">
+        <div class="menu">
+            <h3>About this application</h3>
+            <p>This app allows you to look at your climbing achievements that you've logged in TopLogger. I started
+                bouldering in September 2020, and I've been in love with it ever since. TopLogger's slogan
+                "Let's get even more addicted" is something I fully embrace. This app is made to fulfill your thirst
+                for data and insights during your climbing journey. Enjoy!</p>
+            <br>
+            <h4>Privacy:</h4>
+            <p>Technically, while this application uses cookies, it only saves the gyms you've requested and your TopLogger user ID. Nothing from your visits is shared with other parties. I realize this is quite rare these days, but I want to ensure your privacy. The data we store includes your ascents and rating, which contain your TopLogger user ID.</p>
+            <h4>For the nerds:</h4>
+            <p>I developed this app in Flask, using ApexCharts for the visuals. The back-end optimization emphasizes speed, with heavy reliance on Cython for speed improvement. SQL is the main data storage for the gyms, routes, ascents and ratings. I designed the front end using plain HTML and CSS, with a touch of Vanilla JS and jQuery.</p>
+            <p>Do you have an idea to improve this wonderful application or did you run into something unexpected? Don't hesitate and reach out to me on <a href="mailto:toploggerstats@gmail.com">toploggerstats@gmail.com</a></p>
+        </div>
+    </div>
+    <div id="navoverlay" style="display: none;"></div>
+    <main>
+        <div id="content">
+            <div style="height: 100%;">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </main>
+</body>
+</html>

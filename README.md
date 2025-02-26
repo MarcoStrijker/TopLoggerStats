@@ -1,10 +1,5 @@
 **This project is no longer usable because TopLogger has changed and now blocks the use of their API.**
 
-<picture align="center">
-  <source media="(prefers-color-scheme: dark)" srcset="https://toploggerstats.nl/static/img/favicon_dark.svg">
-  <img alt="ToploggerStats logo" src="https://toploggerstats.nl/static/img/favicon_light.svg">
-</picture>
-
 # TopLoggerStats
 
 Welcome to the public repository of TopLoggerStats, the public web app to get insights into your climbing data. The goal of this project is to provide a simple and easy-to-use web app to get insights into your climbing data in a blazingly fast way.
